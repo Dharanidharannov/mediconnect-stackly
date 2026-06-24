@@ -9,14 +9,14 @@ import {
   MenuItem,
   InputAdornment,
 } from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import PhoneIcon from '@mui/icons-material/Phone';
-import MailIcon from '@mui/icons-material/Mail';
-import WcIcon from '@mui/icons-material/Wc';
-import WaterDropIcon from '@mui/icons-material/WaterDrop';
-import PlaceIcon from '@mui/icons-material/Place';
-import MapIcon from '@mui/icons-material/Map'; // Added Map icon
+import humanicon from '../../assets/humanicon.svg';
+import calendericon from '../../assets/Dateicon.svg';
+import phoneicon from '../../assets/phoneicon.svg';
+import mailicon from '../../assets/mailicon.svg';
+import gendericon from '../../assets/gendericon.svg';
+import bloodicon from '../../assets/bloodicon.svg';
+import locationicon from '../../assets/locationicon.svg';
+
 import FormHeader from '../common/FormHeader';
 import RequiredInfo from '../common/RequiredInfo';
 import FormInput from '../common/FormInput';
@@ -43,7 +43,6 @@ const validationSchema = Yup.object().shape({
 });
 
 const states = [
-  'India',
   'Tamil Nadu',
   'Karnataka',
   'Maharashtra',
@@ -52,7 +51,6 @@ const states = [
 ];
 
 const citiesByState = {
-  'India': ['Coimbatore', 'Chennai', 'Mumbai', 'Bangalore', 'Kochi', 'New Delhi'],
   'Tamil Nadu': ['Coimbatore', 'Chennai', 'Madurai', 'Trichy', 'Salem','Erode'],
   'Karnataka': ['Bangalore', 'Mysore', 'Mangalore', 'Hubli'],
   'Maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Thane'],
@@ -112,46 +110,55 @@ const PersonalDetails = ({ initialValues, onNext }) => {
               required
               name="fullName"
               placeholder="Enter your full name"
-              icon={PersonIcon}
+              icon={humanicon}
               formik={formik}
             />
           </Grid>
 
           {/* Date of Birth */}
-          <Grid size={{ xs: 12, md: 6 }}>
-            <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, color: '#374151' }}>
-              Date of Birth <span style={{ color: '#ff4d4f' }}>*</span>
-            </Typography>
-            <TextField
-              fullWidth
-              name="dob"
-              type="date"
-              value={formik.values.dob}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.dob && Boolean(formik.errors.dob)}
-              helperText={formik.touched.dob && formik.errors.dob}
-              InputProps={{
-                placeholder: 'Select date of birth',
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <CalendarMonthIcon sx={{ color: '#9ca3af', fontSize: 20 }} />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  height: 56,
-                },
-                '& .MuiFormHelperText-root': {
-                  color: '#ff4d4f',
-                  marginLeft: 0,
-                  marginTop: '4px',
-                  fontWeight: 500,
-                },
-              }}
-            />
-          </Grid>
+<Grid size={{ xs: 12, md: 6 }}>
+  <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, color: '#374151' }}>
+    Date of Birth <span style={{ color: '#ff4d4f' }}>*</span>
+  </Typography>
+  <TextField
+    fullWidth
+    name="dob"
+    type="date"
+    value={formik.values.dob}
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+    error={formik.touched.dob && Boolean(formik.errors.dob)}
+    helperText={formik.touched.dob && formik.errors.dob}
+    slotProps={{
+      input: {
+        placeholder: 'Select date of birth',
+        startAdornment: (
+          <InputAdornment position="start">
+  <img
+    src={calendericon}
+    alt="calendar"
+    style={{
+      width: 20,
+      height: 20,
+    }}
+  />
+</InputAdornment>
+        ),
+      },
+    }}
+    sx={{
+      '& .MuiOutlinedInput-root': {
+        height: 56,
+      },
+      '& .MuiFormHelperText-root': {
+        color: '#ff4d4f',
+        marginLeft: 0,
+        marginTop: '4px',
+        fontWeight: 500,
+      },
+    }}
+  />
+</Grid>
 
           {/* Phone Number */}
           <Grid size={{ xs: 12, md: 6 }}>
@@ -163,12 +170,21 @@ const PersonalDetails = ({ initialValues, onNext }) => {
               disabled
               name="phoneNumber"
               value={formik.values.phoneNumber}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <PhoneIcon sx={{ color: '#9ca3af', fontSize: 20 }} />
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <img
+                        src={phoneicon}
+                        alt="phone"
+                        style={{
+                          width: 20,
+                          height: 20,
+                        }}
+                      />
+                    </InputAdornment>
+                  ),
+                },
               }}
               sx={{
                 '& .MuiOutlinedInput-root': {
@@ -185,7 +201,7 @@ const PersonalDetails = ({ initialValues, onNext }) => {
               label="Email Address"
               name="emailAddress"
               placeholder="Enter your email"
-              icon={MailIcon}
+              icon={mailicon}
               formik={formik}
             />
           </Grid>
@@ -197,7 +213,7 @@ const PersonalDetails = ({ initialValues, onNext }) => {
               required
               name="gender"
               options={genders}
-              icon={WcIcon}
+              icon={gendericon}
               formik={formik}
             />
           </Grid>
@@ -209,7 +225,7 @@ const PersonalDetails = ({ initialValues, onNext }) => {
               required
               name="bloodGroup"
               options={bloodGroups}
-              icon={WaterDropIcon}
+              icon={bloodicon}
               formik={formik}
             />
           </Grid>
@@ -221,7 +237,7 @@ const PersonalDetails = ({ initialValues, onNext }) => {
               required
               name="state"
               options={states}
-              icon={PlaceIcon}
+              icon={locationicon}
               formik={formik}
             />
           </Grid>
@@ -241,20 +257,29 @@ const PersonalDetails = ({ initialValues, onNext }) => {
               error={formik.touched.currentCity && Boolean(formik.errors.currentCity)}
               helperText={formik.touched.currentCity && formik.errors.currentCity}
               disabled={!formik.values.state}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <MapIcon sx={{ color: '#9ca3af', fontSize: 20 }} />
-                  </InputAdornment>
-                ),
-              }}
-              SelectProps={{
-                displayEmpty: true,
-                renderValue: (selected) => {
-                  if (!selected) {
-                    return <span style={{ color: '#9ca3af' }}>Select your current city</span>;
-                  }
-                  return selected;
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <img
+                        src={locationicon}
+                        alt="location"
+                        style={{
+                          width: 20,
+                          height: 20,
+                        }}
+                      />
+                    </InputAdornment>
+                  ),
+                },
+                select: {
+                  displayEmpty: true,
+                  renderValue: (selected) => {
+                    if (!selected) {
+                      return <span style={{ color: '#9ca3af' }}>Select your current city</span>;
+                    }
+                    return selected;
+                  },
                 },
               }}
               sx={{
@@ -278,28 +303,19 @@ const PersonalDetails = ({ initialValues, onNext }) => {
           </Grid>
 
           {/* Required fields indicator box */}
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <RequiredInfo />
           </Grid>
 
           {/* Next Button */}
-         <Grid
-  item
-  xs={12}
-  sx={{
-    display: "flex",
-    justifyContent: {
-      xs: "center",
-      sm: "flex-end",
-    },
-    mt: 4,
-  }}
->
-  <FormActions
-    nextText="Add Additional Information"
-    disabled={!isFormValid}
-  />
-</Grid>
+          <Grid size={{ xs: 12 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4 }}>
+              <FormActions
+                nextText="Add Additional Information"
+                disabled={!isFormValid}
+              />
+            </Box>
+          </Grid>
         </Grid>
       </form>
     </Box>

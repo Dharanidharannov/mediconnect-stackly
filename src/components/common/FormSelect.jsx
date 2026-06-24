@@ -1,125 +1,80 @@
-import React from "react";
-import {
-  TextField,
-  Typography,
-  MenuItem,
-  InputAdornment,
-} from "@mui/material";
+import React from 'react';
+import { TextField, InputAdornment, MenuItem, Typography } from '@mui/material';
 
-const FormSelect = ({
-  label,
-  required = false,
-  name,
-  options = [],
-  icon: Icon,
+const FormSelect = ({ 
+  label, 
+  required, 
+  name, 
+  options, 
+  icon: Icon, 
   formik,
   placeholder,
+  ...props 
 }) => {
+  const { values, handleChange, handleBlur, touched, errors } = formik;
+  
   return (
     <>
-      <Typography
-        variant="body2"
-        sx={{
-          fontWeight: 600,
-          mb: 1,
-          color: "#374151",
-        }}
-      >
-        {label}
-        {required && (
-          <span style={{ color: "#ff4d4f" }}> *</span>
-        )}
+      <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, color: '#374151' }}>
+        {label} {required && <span style={{ color: '#ff4d4f' }}>*</span>}
       </Typography>
-
       <TextField
-        select
         fullWidth
+        select
         name={name}
-        value={formik.values[name]}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        error={
-          formik.touched[name] &&
-          Boolean(formik.errors[name])
-        }
-        helperText={
-          formik.touched[name] &&
-          formik.errors[name]
-        }
-        SelectProps={{
-          displayEmpty: true,
-          renderValue: (selected) => {
-            if (!selected) {
-              return (
-                <span
-                  style={{
-                    color: "#9ca3af",
-                  }}
-                >
-                  {placeholder || `Select ${label}`}
-                </span>
-              );
-            }
-            return selected;
+        value={values[name] || ''}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={touched[name] && Boolean(errors[name])}
+        helperText={touched[name] && errors[name]}
+        slotProps={{
+          input: {
+            startAdornment: Icon && (
+             <InputAdornment position="start">
+               {typeof Icon === "string" ? (
+                 <img
+                   src={Icon}
+                   alt="icon"
+                   width="20"
+                   height="20"
+                 />
+               ) : (
+                 <Icon
+                   sx={{
+                     color: '#9ca3af',
+                     fontSize: 20,
+                   }}
+                 />
+               )}
+             </InputAdornment>
+            ),
           },
-        }}
-        InputProps={{
-          startAdornment: Icon ? (
-            <InputAdornment position="start">
-              <Icon
-                sx={{
-                  color: "#9ca3af",
-                  fontSize: 20,
-                }}
-              />
-            </InputAdornment>
-          ) : null,
+          select: {
+            displayEmpty: true,
+            renderValue: (selected) => {
+              if (!selected) {
+                return <span style={{ color: '#9ca3af' }}>{placeholder || `Select your ${label.toLowerCase()}`}</span>;
+              }
+              return selected;
+            },
+          },
         }}
         sx={{
-          width: "100%",
-
-          "& .MuiOutlinedInput-root": {
+          '& .MuiOutlinedInput-root': {
             height: 56,
-            borderRadius: "12px",
-            backgroundColor: "#fff",
-
-            "& fieldset": {
-              borderColor: "#d1d5db",
-            },
-
-            "&:hover fieldset": {
-              borderColor: "#9ca3af",
-            },
-
-            "&.Mui-focused fieldset": {
-              borderColor: "#0a6650",
-              borderWidth: "2px",
-            },
           },
-
-          "& .MuiSelect-select": {
-            display: "flex",
-            alignItems: "center",
-          },
-
-          "& .MuiFormHelperText-root": {
-            color: "#ff4d4f",
+          '& .MuiFormHelperText-root': {
+            color: '#ff4d4f',
             marginLeft: 0,
-            marginTop: "4px",
+            marginTop: '4px',
             fontWeight: 500,
           },
         }}
+        {...props}
       >
-        <MenuItem value="" disabled>
-          {placeholder || `Select ${label}`}
-        </MenuItem>
-
-        {options.map((item) => (
-          <MenuItem
-            key={item}
-            value={item}
-          >
-            {item}
+        {options.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
           </MenuItem>
         ))}
       </TextField>

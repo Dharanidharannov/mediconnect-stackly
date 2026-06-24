@@ -9,6 +9,7 @@ import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import ShieldIcon from '@mui/icons-material/Shield';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import mediconnectlogo from '../assets/Logo.svg';
 
 const steps = [
   { label: 'Personal Information', labelCompleted: 'Personal Details', icon: PersonIcon },
@@ -51,24 +52,29 @@ const Sidebar = ({ currentStep }) => {
       }}
     >
       {/* Brand logo & Desktop timeline */}
-      <Box sx={{ flexGrow: { sm: 1, md: 0 }, display: 'flex', flexDirection: 'column' }}>
-        {/* Logo Section */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: { xs: 0, sm: 0, md: 6 } }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mr: 1.5 }}>
-            <svg width="36" height="36" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M50 85C50 85 15 55 15 32.5C15 20 25 10 37.5 10C45 10 50 15 50 15C50 15 55 10 62.5 10C75 10 85 20 85 32.5C85 55 50 85 50 85Z" fill="#0a6650" />
-              <path d="M50 25V55M35 40H65" stroke="#ffffff" strokeWidth="8" strokeLinecap="round" />
-            </svg>
-          </Box>
-          <Box>
-            <Typography variant="h6" sx={{ fontWeight: 800, color: '#0a6650', lineHeight: 1.1, fontSize: { xs: '1.1rem', md: '1.2rem' } }}>
-              MediConnect
-            </Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 500, fontSize: '0.625rem', display: 'block', letterSpacing: 0.5 }}>
-              Healthcare Ecosystem
-            </Typography>
-          </Box>
+       <Box sx={{ flexGrow: { sm: 1, md: 0 }, display: 'flex', flexDirection: 'column' }}>
+        {/* Logo Section - Added here */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            mb: { xs: 2, md: 4 },
+            px: 1,
+          }}
+        >
+          <img
+            src={mediconnectlogo}
+            alt="MediConnect"
+            style={{
+              width: "200px",
+              height: "auto",
+              objectFit: "contain",
+              display: "block",
+            }}
+          />
         </Box>
+       
+        
 
         {/* Desktop timeline view - hidden on mobile/tablet */}
         <Box sx={{ display: { xs: 'none', md: 'block' }, position: 'relative', mt: 4 }}>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { CssBaseline, Box, Link, Typography } from '@mui/material';
-import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
+import { CssBaseline, Box } from '@mui/material';
 import theme from './theme';
 
 // Sidebar layout
@@ -9,7 +8,8 @@ import Sidebar from './components/Sidebar';
 
 // Steps components
 import PersonalDetails from './components/forms/PersonalDetails';
-
+import AdditionalInformation from './components/forms/AdditionalInformation';
+import MedicalHistory from './components/forms/MedicalHistory';
 
 function App() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -26,21 +26,24 @@ function App() {
     currentCity: '',
     
     // Step 2: Additional Info
-    emergencyName: '',
-    emergencyPhone: '',
-    relationship: '',
-    occupation: '',
-    maritalStatus: '',
-    address: '',
+    height: '',
+    weight: '',
+    bloodPressure: '',
+    bloodSugar: '',
+    physicalActivityLevel: '',
+    dietaryPreference: '',
+    smokingStatus: '',
+    alcoholConsumption: '',
+    emergencyContactName: '',
+    emergencyContactNumber: '+91 ',
+    emergencyContactRelationship: '',
 
     // Step 3: Medical History
-    chronicConditions: [],
-    currentMedications: '',
     allergies: '',
-    surgeries: '',
+    currentMedications: '',
+    existingConditions: '',
+    previousSurgeries: '',
     smoking: '',
-    alcohol: '',
-    exercise: '',
 
     // Step 4: Insurance Info
     hasInsurance: 'No',
@@ -54,7 +57,7 @@ function App() {
     // Step 5: Health Records
     uploadedFiles: [],
 
-    // Step 6: Review & Complete (Password + Patient ID)
+    // Step 6: Review & Complete
     patientId: '7G3H81',
     password: '',
   });
@@ -69,7 +72,6 @@ function App() {
   };
 
   const handleLogout = () => {
-    // Reset form state and go back to step 1
     setFormData({
       fullName: '',
       dob: '',
@@ -79,19 +81,22 @@ function App() {
       bloodGroup: '',
       state: '',
       currentCity: '',
-      emergencyName: '',
-      emergencyPhone: '',
-      relationship: '',
-      occupation: '',
-      maritalStatus: '',
-      address: '',
-      chronicConditions: [],
-      currentMedications: '',
+      height: '',
+      weight: '',
+      bloodPressure: '',
+      bloodSugar: '',
+      physicalActivityLevel: '',
+      dietaryPreference: '',
+      smokingStatus: '',
+      alcoholConsumption: '',
+      emergencyContactName: '',
+      emergencyContactNumber: '+91 ',
+      emergencyContactRelationship: '',
       allergies: '',
-      surgeries: '',
+      currentMedications: '',
+      existingConditions: '',
+      previousSurgeries: '',
       smoking: '',
-      alcohol: '',
-      exercise: '',
       hasInsurance: 'No',
       providerName: '',
       policyNumber: '',
@@ -111,7 +116,22 @@ function App() {
     switch (currentStep) {
       case 1:
         return <PersonalDetails initialValues={formData} onNext={handleNextStep} />;
-          
+      case 2:
+        return (
+          <AdditionalInformation 
+            initialValues={formData} 
+            onNext={handleNextStep} 
+            onBack={handleBackStep} 
+          />
+        );
+      case 3:
+        return (
+          <MedicalHistory 
+            initialValues={formData} 
+            onNext={handleNextStep} 
+            onBack={handleBackStep} 
+          />
+        );
       default:
         return <PersonalDetails initialValues={formData} onNext={handleNextStep} />;
     }
@@ -125,44 +145,24 @@ function App() {
       
       {isOnboardingStep ? (
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, minHeight: '100vh' }}>
-          {/* Left Sidebar timeline panel */}
           <Sidebar currentStep={currentStep} />
 
-          {/* Right Main Form Container */}
           <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: '#fcfdfd' }}>
-            
-            {/* Top Contact Support header bar */}
             <Box
               sx={{
+                flexGrow: 1,
                 display: 'flex',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                padding: '24px 32px 12px',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+                padding: {
+                  xs: '16px 20px',
+                  sm: '20px 32px',
+                  md: '2px 48px',
+                },
               }}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <HeadsetMicIcon sx={{ color: '#4b5563', fontSize: 20 }} />
-                <Box sx={{ display: 'inline-flex', flexDirection: 'row', gap: 0.5 }}>
-                  <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600 }}>
-                    Need Help?
-                  </Typography>
-                  <Link
-                    href="#"
-                    underline="always"
-                    sx={{
-                      fontSize: '0.75rem',
-                      fontWeight: 700,
-                      color: '#0a6650',
-                      '&:hover': { color: '#084f3e' },
-                    }}
-                  >
-                    Contact Support
-                  </Link>
-                </Box>
-              </Box>
             </Box>
 
-            {/* Active Onboarding Form Panel */}
             <Box
               sx={{
                 flexGrow: 1,
@@ -177,7 +177,6 @@ function App() {
           </Box>
         </Box>
       ) : (
-        // Steps 7 (Success Page/Profile Summary) and Step 8 (Dashboard)
         <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f3f4f6', py: currentStep === 8 ? 0 : 4 }}>
           <Box sx={{ width: '100%' }}>{renderStep()}</Box>
         </Box>

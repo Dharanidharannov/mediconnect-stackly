@@ -1,64 +1,68 @@
-import {
-  TextField,
-  Typography,
-  InputAdornment,
-} from "@mui/material";
+import React from 'react';
+import { TextField, InputAdornment, Typography } from '@mui/material';
 
-const FormInput = ({
-  label,
-  required = false,
-  name,
-  placeholder,
-  icon: Icon,
+const FormInput = ({ 
+  label, 
+  required, 
+  name, 
+  placeholder, 
+  icon: Icon, 
   formik,
-  type = "text",
+  type = 'text',
+  ...props 
 }) => {
+  const { values, handleChange, handleBlur, touched, errors } = formik;
+  
   return (
     <>
-      <Typography
-        variant="body2"
-        sx={{
-          fontWeight: 600,
-          mb: 1,
-          color: "#374151",
-        }}
-      >
-        {label}
-
-        {required && (
-          <span style={{ color: "#ff4d4f" }}>
-            {" "}*
-          </span>
-        )}
+      <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, color: '#374151' }}>
+        {label} {required && <span style={{ color: '#ff4d4f' }}>*</span>}
       </Typography>
-
       <TextField
         fullWidth
-        name={name}
         type={type}
+        name={name}
         placeholder={placeholder}
-        value={formik.values[name]}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        error={
-          formik.touched[name] &&
-          Boolean(formik.errors[name])
-        }
-        helperText={
-          formik.touched[name] &&
-          formik.errors[name]
-        }
-        InputProps={{
-          startAdornment: Icon && (
-            <InputAdornment position="start">
-              <Icon
-                sx={{
-                  color: "#9ca3af",
-                }}
-              />
-            </InputAdornment>
-          ),
+        value={values[name] || ''}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={touched[name] && Boolean(errors[name])}
+        helperText={touched[name] && errors[name]}
+        slotProps={{
+          input: {
+            startAdornment: Icon && (
+              <InputAdornment position="start">
+  {typeof Icon === "string" ? (
+    <img
+      src={Icon}
+      alt="icon"
+      width="20"
+      height="20"
+    />
+  ) : (
+    <Icon
+      sx={{
+        color: '#9ca3af',
+        fontSize: 20,
+      }}
+    />
+  )}
+</InputAdornment>
+            ),
+          },
         }}
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            height: 56,
+          },
+          '& .MuiFormHelperText-root': {
+            color: '#ff4d4f',
+            marginLeft: 0,
+            marginTop: '4px',
+            fontWeight: 500,
+          },
+        }}
+        {...props}
       />
     </>
   );
