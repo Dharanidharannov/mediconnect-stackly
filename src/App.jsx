@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, Box } from '@mui/material';
@@ -10,6 +11,10 @@ import Sidebar from './components/Sidebar';
 import PersonalDetails from './components/forms/PersonalDetails';
 import AdditionalInformation from './components/forms/AdditionalInformation';
 import MedicalHistory from './components/forms/MedicalHistory';
+import InsuranceInformation from './components/forms/InsuranceInformation';
+import HealthRecords from './components/forms/HealthRecords';
+import ReviewComplete from './components/forms/ReviewComplete';
+import AccountCreated from './components/forms/AccountCreated';
 
 function App() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -18,7 +23,7 @@ function App() {
     // Step 1: Personal Details
     fullName: '',
     dob: '',
-    phoneNumber: '+91 9876 543 210',
+    phoneNumber: '',
     emailAddress: '',
     gender: '',
     bloodGroup: '',
@@ -58,7 +63,7 @@ function App() {
     uploadedFiles: [],
 
     // Step 6: Review & Complete
-    patientId: '7G3H81',
+    patientId: '7N6S93',
     password: '',
   });
 
@@ -75,7 +80,7 @@ function App() {
     setFormData({
       fullName: '',
       dob: '',
-      phoneNumber: '+91 9876 543 210',
+      phoneNumber: '',
       emailAddress: '',
       gender: '',
       bloodGroup: '',
@@ -105,7 +110,7 @@ function App() {
       relationshipToHolder: '',
       expiryDate: '',
       uploadedFiles: [],
-      patientId: '7G3H81',
+      patientId: '7N6S93',
       password: '',
     });
     setShowProfileSummary(false);
@@ -127,6 +132,38 @@ function App() {
       case 3:
         return (
           <MedicalHistory 
+            initialValues={formData} 
+            onNext={handleNextStep} 
+            onBack={handleBackStep} 
+          />
+        );
+      case 4:
+        return (
+          <InsuranceInformation 
+            initialValues={formData} 
+            onNext={handleNextStep} 
+            onBack={handleBackStep} 
+          />
+        );
+      case 5:
+        return (
+          <HealthRecords 
+            initialValues={formData} 
+            onNext={handleNextStep} 
+            onBack={handleBackStep} 
+          />
+        );
+      case 6:
+        return (
+          <ReviewComplete 
+            initialValues={formData} 
+            onNext={handleNextStep} 
+            onBack={handleBackStep} 
+          />
+        );
+      case 7:
+        return (
+          <AccountCreated 
             initialValues={formData} 
             onNext={handleNextStep} 
             onBack={handleBackStep} 

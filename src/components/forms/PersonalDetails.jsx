@@ -26,20 +26,30 @@ import FormActions from '../common/FormActions';
 const validationSchema = Yup.object().shape({
   fullName: Yup.string()
     .trim()
-    .required('Please enter your full name!'),
+    .required("Please enter your full name!"),
+
   dob: Yup.string()
-    .required('Please select your date of birth!'),
+    .required("Please select your date of birth!"),
+
+  phoneNumber: Yup.string()
+    .required("Please enter your phone number!")
+    .matches(/^[6-9]\d{9}$/, "Enter a valid 10-digit phone number!"),
+
   emailAddress: Yup.string()
-    .email('Enter a valid email address!')
+    .email("Enter a valid email address!")
     .optional(),
+
   gender: Yup.string()
-    .required('Please select your gender!'),
+    .required("Please select your gender!"),
+
   bloodGroup: Yup.string()
-    .required('Please select your blood group!'),
+    .required("Please select your blood group!"),
+
   state: Yup.string()
-    .required('Please select your state!'),
+    .required("Please select your state!"),
+
   currentCity: Yup.string()
-    .required('Please select your current city!'),
+    .required("Please select your current city!"),
 });
 
 const states = [
@@ -66,7 +76,7 @@ const PersonalDetails = ({ initialValues, onNext }) => {
     initialValues: {
       fullName: initialValues.fullName || '',
       dob: initialValues.dob || '',
-      phoneNumber: '+91 9876 543 210',
+      phoneNumber: initialValues.phoneNumber || '',
       emailAddress: initialValues.emailAddress || '',
       gender: initialValues.gender || '',
       bloodGroup: initialValues.bloodGroup || '',
@@ -83,6 +93,7 @@ const PersonalDetails = ({ initialValues, onNext }) => {
     formik.values.fullName &&
     formik.values.dob &&
     formik.values.gender &&
+    formik.values.phoneNumber &&
     formik.values.bloodGroup &&
     formik.values.state &&
     formik.values.currentCity &&
@@ -162,38 +173,57 @@ const PersonalDetails = ({ initialValues, onNext }) => {
 
           {/* Phone Number */}
           <Grid size={{ xs: 12, md: 6 }}>
-            <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, color: '#374151' }}>
-              Phone Number
-            </Typography>
-            <TextField
-              fullWidth
-              disabled
-              name="phoneNumber"
-              value={formik.values.phoneNumber}
-              slotProps={{
-                input: {
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <img
-                        src={phoneicon}
-                        alt="phone"
-                        style={{
-                          width: 20,
-                          height: 20,
-                        }}
-                      />
-                    </InputAdornment>
-                  ),
-                },
-              }}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  backgroundColor: '#f3f4f6',
-                  color: '#6b7280',
-                },
+  <Typography
+    variant="body2"
+    sx={{ fontWeight: 600, mb: 1, color: "#374151" }}
+  >
+    Phone Number <span style={{ color: "#ff4d4f" }}>*</span>
+  </Typography>
+
+  <TextField
+    fullWidth
+    name="phoneNumber"
+    placeholder="Enter your phone number"
+    value={formik.values.phoneNumber}
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+    error={
+      formik.touched.phoneNumber &&
+      Boolean(formik.errors.phoneNumber)
+    }
+    helperText={
+      formik.touched.phoneNumber &&
+      formik.errors.phoneNumber
+    }
+    slotProps={{
+      input: {
+        startAdornment: (
+          <InputAdornment position="start">
+            <img
+              src={phoneicon}
+              alt="phone"
+              style={{
+                width: 20,
+                height: 20,
               }}
             />
-          </Grid>
+          </InputAdornment>
+        ),
+      },
+    }}
+    sx={{
+      "& .MuiOutlinedInput-root": {
+        height: 56,
+      },
+      "& .MuiFormHelperText-root": {
+        color: "#ff4d4f",
+        marginLeft: 0,
+        marginTop: "4px",
+        fontWeight: 500,
+      },
+    }}
+  />
+</Grid>
 
           {/* Email Address */}
           <Grid size={{ xs: 12, md: 6 }}>
