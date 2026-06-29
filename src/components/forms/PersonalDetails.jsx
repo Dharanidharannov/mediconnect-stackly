@@ -68,8 +68,8 @@ const citiesByState = {
   'Delhi': ['New Delhi', 'North Delhi', 'South Delhi'],
 };
 
-const bloodGroups = ['A +ve', 'A -ve', 'B +ve', 'B -ve', 'O +ve', 'O -ve', 'AB +ve', 'AB -ve'];
-const genders = ['Male', 'Female', 'Other'];
+const bloodGroups = ['O+', 'A+', 'B+', 'AB+', 'O-', 'A-', 'B-', 'AB-'];
+const genders = ['Male', 'Female','Non-binary', 'Prefer not to say'];
 
 const PersonalDetails = ({ initialValues, onNext }) => {
   const formik = useFormik({
@@ -156,6 +156,9 @@ const PersonalDetails = ({ initialValues, onNext }) => {
 </InputAdornment>
         ),
       },
+       htmlInput: {
+      max: new Date().toISOString().split("T")[0], // Prevent future dates
+    },
     }}
     sx={{
       '& .MuiOutlinedInput-root': {

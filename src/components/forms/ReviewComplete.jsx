@@ -21,7 +21,7 @@ import {
   Warning as WarningIcon,
   HelpOutlineOutlined as HelpOutlineIcon,
 } from '@mui/icons-material';
-
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import FormHeader from '../common/FormHeader';
 
 const ReviewComplete = ({ initialValues, onNext, onBack }) => {
@@ -51,7 +51,7 @@ const ReviewComplete = ({ initialValues, onNext, onBack }) => {
   // Password requirements
   const getPasswordRequirements = () => {
     return [
-      { text: 'At least 8 Characters', met: password.length >= 8 },
+      { text: 'At least 8 characters', met: password.length >= 8 },
       { text: 'At least one small letter', met: /[a-z]/.test(password) },
       { text: 'At least one capital letter', met: /[A-Z]/.test(password) },
       { text: 'At least one number or symbol', met: /[0-9]/.test(password) || /[!@#$%^&*(),.?":{}|<>]/.test(password) },
@@ -235,154 +235,204 @@ const ReviewComplete = ({ initialValues, onNext, onBack }) => {
         </Box>
       </Box>
 
-      {/* Password Section */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h6" sx={{ fontWeight: 600, color: '#111827', mb: 1 }}>
-          Create a strong password
-        </Typography>
-        <Typography variant="body2" sx={{ color: '#6b7280', mb: 3 }}>
-          Create a strong password with a mix of letters, numbers and symbols.
-        </Typography>
+      {/* Password Section - Column Layout with Eye Icon Inside Input */}
+     <Box sx={{ mb: 4 }}>
+  <Typography
+    variant="h6"
+    sx={{ fontWeight: 600, color: "#111827", mb: 1 }}
+  >
+    Create a strong password
+  </Typography>
 
-        {/* Create New Password */}
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="body2" sx={{ fontWeight: 600, color: '#374151', mb: 1 }}>
-            Create New Password
-          </Typography>
-          <TextField
-            fullWidth
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Enter your new password"
-            value={password}
-            onChange={handlePasswordChange}
+  <Typography
+    variant="body2"
+    sx={{ color: "#6b7280", mb: 3 }}
+  >
+    Create a strong password with a mix of letters, numbers and symbols.
+  </Typography>
+
+  <Grid container spacing={3}>
+    {/* Password */}
+    <Grid size={{ xs: 12, md: 6 }}>
+      <Typography
+        variant="body2"
+        sx={{
+          fontWeight: 600,
+          color: "#374151",
+          mb: 1,
+        }}
+      >
+        Create New Password
+      </Typography>
+
+ <TextField
+  fullWidth
+  variant="outlined"
+  type={showPassword ? "text" : "password"}
+  value={password}
+  onChange={handlePasswordChange}
+  placeholder="Enter your new password"
+  slotProps={{
+    input: {
+      startAdornment: (
+        <InputAdornment position="start">
+          <LockOutlinedIcon sx={{ color: "#9CA3AF" }} />
+        </InputAdornment>
+      ),
+      endAdornment: (
+        <InputAdornment position="end">
+          <IconButton onClick={() => setShowPassword(!showPassword)}>
+            {showPassword ? <VisibilityOff /> : <Visibility />}
+          </IconButton>
+        </InputAdornment>
+      ),
+    },
+  }}
+  sx={{
+    "& .MuiOutlinedInput-root": {
+      height: 56,
+      borderRadius: "10px",
+    },
+  }}
+/>
+
+      {password && (
+        <>
+          <Box
             sx={{
-              '& .MuiOutlinedInput-root': {
-                backgroundColor: '#f9fafb',
-                '&:hover': {
-                  backgroundColor: '#ffffff',
-                },
-                '&.Mui-focused': {
-                  backgroundColor: '#ffffff',
-                },
-              },
+              display: "flex",
+              alignItems: "center",
+              mt: 2,
+              gap: 2,
             }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          
-          {password && (
-            <Box sx={{ mt: 1 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Box sx={{ flex: 1 }}>
-                  <LinearProgress
-                    variant="determinate"
-                    value={passwordStrength === 'Very Good' ? 100 : passwordStrength === 'Good' ? 75 : 50}
+          >
+            <LinearProgress
+              variant="determinate"
+              value={
+                passwordStrength === "Very Good"
+                  ? 100
+                  : passwordStrength === "Good"
+                  ? 75
+                  : 50
+              }
+              sx={{
+                flex: 1,
+                height: 5,
+                borderRadius: 5,
+                backgroundColor: "#E5E7EB",
+
+                "& .MuiLinearProgress-bar": {
+                  backgroundColor:
+                    getPasswordStrengthColor(),
+                },
+              }}
+            />
+
+            <Typography
+              sx={{
+                color: getPasswordStrengthColor(),
+                fontWeight: 600,
+              }}
+            >
+              {passwordStrength}
+            </Typography>
+          </Box>
+
+          <Box sx={{ mt: 3 }}>
+            <Typography
+              sx={{
+                fontWeight: 600,
+                mb: 2,
+              }}
+            >
+              Should Contain:
+            </Typography>
+
+            {getPasswordRequirements().map(
+              (req, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    mb: 1.5,
+                  }}
+                >
+                  <CheckCircleIcon
                     sx={{
-                      height: 4,
-                      borderRadius: 2,
-                      backgroundColor: '#e5e7eb',
-                      '& .MuiLinearProgress-bar': {
-                        backgroundColor: getPasswordStrengthColor(),
-                        borderRadius: 2,
-                      },
+                      color: req.met
+                        ? "#0ab38c"
+                        : "#d1d5db",
+                      mr: 1,
+                      fontSize: 20,
                     }}
                   />
-                </Box>
-                <Typography 
-                  variant="caption" 
-                  sx={{ 
-                    color: getPasswordStrengthColor(), 
-                    fontWeight: 600,
-                    minWidth: 70,
-                  }}
-                >
-                  {passwordStrength}
-                </Typography>
-              </Box>
-            </Box>
-          )}
-        </Box>
 
-        {/* Confirm Password */}
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="body2" sx={{ fontWeight: 600, color: '#374151', mb: 1 }}>
-            Confirm Password
-          </Typography>
-          <TextField
-            fullWidth
-            type={showConfirmPassword ? 'text' : 'password'}
-            placeholder="Confirm your password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            error={confirmPassword.length > 0 && password !== confirmPassword}
-            helperText={
-              confirmPassword.length > 0 && password !== confirmPassword 
-                ? 'Confirm Password should be same as entered password!' 
-                : ''
-            }
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                backgroundColor: '#f9fafb',
-                '&:hover': {
-                  backgroundColor: '#ffffff',
-                },
-                '&.Mui-focused': {
-                  backgroundColor: '#ffffff',
-                },
-              },
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    edge="end"
+                  <Typography
+                    sx={{
+                      color: req.met
+                        ? "#0ab38c"
+                        : "#6b7280",
+                    }}
                   >
-                    {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Box>
-
-        {/* Password Requirements */}
-        <Box>
-          <Typography variant="body2" sx={{ fontWeight: 600, color: '#374151', mb: 1 }}>
-            Should Contain:
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-            {getPasswordRequirements().map((req, index) => (
-              <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                {req.met ? (
-                  <CheckCircleIcon sx={{ fontSize: 16, color: '#0ab38c' }} />
-                ) : (
-                  <Box sx={{ width: 16, height: 16, borderRadius: '50%', border: '2px solid #d1d5db' }} />
-                )}
-                <Typography 
-                  variant="caption" 
-                  sx={{ 
-                    color: req.met ? '#0ab38c' : '#6b7280',
-                    fontWeight: req.met ? 600 : 400,
-                  }}
-                >
-                  {req.text}
-                </Typography>
-              </Box>
-            ))}
+                    {req.text}
+                  </Typography>
+                </Box>
+              )
+            )}
           </Box>
-        </Box>
-      </Box>
+        </>
+      )}
+    </Grid>
+
+    {/* Confirm Password */}
+    <Grid size={{ xs: 12, md: 6 }}>
+      <Typography
+        variant="body2"
+        sx={{
+          fontWeight: 600,
+          color: "#374151",
+          mb: 1,
+        }}
+      >
+        Confirm Password
+      </Typography>
+
+      <TextField
+  fullWidth
+  variant="outlined"
+  type={showConfirmPassword ? "text" : "password"}
+  placeholder="Confirm your password"
+  value={confirmPassword}
+  onChange={(e) => setConfirmPassword(e.target.value)}
+  error={confirmPassword.length > 0 && password !== confirmPassword}
+  helperText={
+    confirmPassword.length > 0 && password !== confirmPassword
+      ? "Confirm Password should be same as entered password!"
+      : ""
+  }
+slotProps={{
+  input: {
+    startAdornment: (
+      <InputAdornment position="start">
+        <LockOutlinedIcon sx={{ color: "#9CA3AF" }} />
+      </InputAdornment>
+    ),
+    endAdornment: (
+      <InputAdornment position="end">
+        <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+          {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+        </IconButton>
+      </InputAdornment>
+    ),
+  },
+}}
+/>
+    </Grid>
+  </Grid>
+</Box>
+
+
 
       {/* Profile Progress */}
       <Box sx={{ mb: 4 }}>
@@ -467,6 +517,7 @@ const ReviewComplete = ({ initialValues, onNext, onBack }) => {
         >
           Create Profile
         </Button>
+        
       </Box>
     </Box>
   );

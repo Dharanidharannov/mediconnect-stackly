@@ -17,15 +17,15 @@ import FormActions from '../common/FormActions';
 // Validation schema with proper validations
 const validationSchema = Yup.object().shape({
   height: Yup.number()
-    .typeError('Height must be a number')
     .min(50, 'Height should be between 50 cm and 250 cm')
     .max(250, 'Height should be between 50 cm and 250 cm')
-    .required('Please enter your height!'),
+    .optional(),
+  heightUnit: Yup.string().optional(),
   weight: Yup.number()
-    .typeError('Weight must be a number')
     .min(2, 'Weight should be between 2 kg and 500 kg')
     .max(500, 'Weight should be between 2 kg and 500 kg')
-    .required('Please enter your weight!'),
+    .optional(),
+  weightUnit: Yup.string().optional(),
   bloodPressure: Yup.string()
     .matches(
       /^(\d{2,3})\s*\/\s*(\d{2,3})$/,
@@ -46,13 +46,17 @@ const validationSchema = Yup.object().shape({
     .max(300, 'Please enter a valid blood sugar value')
     .optional(),
   physicalActivityLevel: Yup.string()
-    .required('Please select your physical activity level!'),
+    .typeError('Please select your physical activity level!')
+    .optional(),
   dietaryPreference: Yup.string()
-    .required('Please select your dietary preference!'),
+    .typeError('Please select your dietary preference!')
+    .optional(),
   smokingStatus: Yup.string()
-    .required('Please select a valid smoking status.'),
+    .typeError('Please select a valid smoking status.')
+    .optional(),
   alcoholConsumption: Yup.string()
-    .required('Please select your alcohol consumption!'),
+    .typeError('Please select your alcohol consumption!')
+    .optional(),
   emergencyContactNumber: Yup.string()
     .required('Emergency contact number is required')
     .matches(
@@ -74,17 +78,21 @@ const validationSchema = Yup.object().shape({
     .required('Please select your relationship with the emergency contact.'),
 });
 
-const physicalActivityLevels = ['Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Extremely Active'];
-const dietaryPreferences = ['Vegetarian', 'Non-Vegetarian', 'Vegan', 'Gluten-Free', 'Keto', 'Paleo', 'Mediterranean', 'None'];
-const smokingStatusOptions = ['Never Smoked', 'Former Smoker', 'Current Smoker', 'Occasional Smoker'];
-const alcoholConsumptionOptions = ['Never', 'Occasionally', 'Moderately', 'Frequently', 'Daily'];
-const relationships = ['Spouse', 'Parent', 'Child', 'Sibling', 'Friend', 'Colleague', 'Other'];
+const physicalActivityLevels = ['Sedentary', 'Lightly Active', 'Moderately Active', 'Very Active', 'Highly Active'];
+const dietaryPreferences = ['No Preference','Vegetarian','Vegan','Eggetarain','Pescatarian','Non-Vegetarian','Other'];
+const smokingStatusOptions = ['Never Smoked', 'Former Smoker', 'Occasional Smoker','Regular Smoker','Prefer not to say'];
+const alcoholConsumptionOptions = ['Never', 'Occasionally', 'Monthly', 'Weekly', 'Frequently','Prefer not to say'];
+const relationships = ['Parent', 'Spouse', 'Sibling', 'Child', 'Relative', 'Friend', 'Caregiver','Guardian','Other'];
+const heightUnits = ['cm', 'ft'];
+const weightUnits = ['kg', 'lb'];
 
 const AdditionalInformation = ({ initialValues, onNext, onBack }) => {
   const formik = useFormik({
     initialValues: {
       height: initialValues.height || '',
+      heightUnit: initialValues.heightUnit || 'cm',
       weight: initialValues.weight || '',
+      weightUnit: initialValues.weightUnit || 'kg',
       bloodPressure: initialValues.bloodPressure || '',
       bloodSugar: initialValues.bloodSugar || '',
       physicalActivityLevel: initialValues.physicalActivityLevel || '',
@@ -112,13 +120,108 @@ const AdditionalInformation = ({ initialValues, onNext, onBack }) => {
     formik.values.emergencyContactRelationship &&
     Object.keys(formik.errors).length === 0;
 
-  // Helper function for text input fields
+  // Helper function for text input fields with unit selector
+  const renderTextFieldWithUnit = (name, label, required = false, placeholder = '', unitName, unitOptions, defaultUnit) => {
+    const hasError = formik.touched[name] && Boolean(formik.errors[name]);
+    
+    return (
+      <Box>
+        <Typography
+          variant="body2"
+          sx={{ fontWeight: 600, mb: 1, color: '#374151' }}
+        >
+          {label} {required && <span style={{ color: '#ff4d4f' }}>*</span>}
+        </Typography>
+        <TextField
+          fullWidth
+          name={name}
+          placeholder={placeholder}
+          value={formik.values[name]}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={hasError}
+          helperText={hasError && formik.errors[name]}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <TextField
+                    select
+                    name={unitName}
+                    value={formik.values[unitName] || defaultUnit}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    variant="standard"
+                    sx={{
+                      '& .MuiInput-root': {
+                        '&:before': {
+                          borderBottom: 'none',
+                        },
+                        '&:hover:before': {
+                          borderBottom: 'none',
+                        },
+                        '&.Mui-focused:before': {
+                          borderBottom: 'none',
+                        },
+                        '&:after': {
+                          borderBottom: 'none',
+                        },
+                      },
+                      '& .MuiSelect-select': {
+                        padding: '4px 24px 4px 8px',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        color: '#6b7280',
+                        minWidth: '50px',
+                      },
+                      '& .MuiSelect-icon': {
+                        right: '4px',
+                      },
+                    }}
+                  >
+                    {unitOptions.map((unit) => (
+                      <MenuItem key={unit} value={unit}>
+                        {unit}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </InputAdornment>
+              ),
+            },
+          }}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              height: 56,
+              backgroundColor: '#f9fafb',
+              '&:hover': {
+                backgroundColor: '#ffffff',
+              },
+              '&.Mui-focused': {
+                backgroundColor: '#ffffff',
+              },
+            },
+            '& .MuiFormHelperText-root': {
+              color: '#ff4d4f',
+              marginLeft: 0,
+              marginTop: '4px',
+              fontWeight: 500,
+            },
+          }}
+        />
+      </Box>
+    );
+  };
+
+  // Helper function for text input fields (without unit)
   const renderTextField = (name, label, required = false, placeholder = '', endAdornment = null) => {
     const hasError = formik.touched[name] && Boolean(formik.errors[name]);
     
     return (
       <Box>
-        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, color: '#374151' }}>
+        <Typography
+          variant="body2"
+          sx={{ fontWeight: 600, mb: 1, color: '#374151' }}
+        >
           {label} {required && <span style={{ color: '#ff4d4f' }}>*</span>}
         </Typography>
         <TextField
@@ -239,12 +342,28 @@ const AdditionalInformation = ({ initialValues, onNext, onBack }) => {
         <Grid container spacing={3}>
           {/* Height */}
           <Grid size={{ xs: 12, md: 6 }}>
-            {renderTextField('height', 'Height', true, 'Enter height', 'cm')}
+            {renderTextFieldWithUnit(
+              'height', 
+              'Height', 
+              false, 
+              'Enter height', 
+              'heightUnit', 
+              heightUnits, 
+              'cm'
+            )}
           </Grid>
 
           {/* Weight */}
           <Grid size={{ xs: 12, md: 6 }}>
-            {renderTextField('weight', 'Weight', true, 'Enter weight', 'kg')}
+            {renderTextFieldWithUnit(
+              'weight', 
+              'Weight', 
+              false, 
+              'Enter weight', 
+              'weightUnit', 
+              weightUnits, 
+              'kg'
+            )}
           </Grid>
 
           {/* Blood Pressure */}
@@ -259,33 +378,32 @@ const AdditionalInformation = ({ initialValues, onNext, onBack }) => {
 
           {/* Physical Activity Level */}
           <Grid size={{ xs: 12, md: 6 }}>
-            {renderSelectField('physicalActivityLevel', 'Physical Activity Level', true, physicalActivityLevels, 'Select your physical activity level')}
+            {renderSelectField('physicalActivityLevel', 'Physical Activity Level', false, physicalActivityLevels, 'Select your physical activity level')}
           </Grid>
 
           {/* Dietary Preference */}
           <Grid size={{ xs: 12, md: 6 }}>
-            {renderSelectField('dietaryPreference', 'Dietary Preference', true, dietaryPreferences, 'Select your dietary preference')}
+            {renderSelectField('dietaryPreference', 'Dietary Preference', false, dietaryPreferences, 'Select your dietary preference')}
           </Grid>
 
           {/* Smoking Status */}
           <Grid size={{ xs: 12, md: 6 }}>
-            {renderSelectField('smokingStatus', 'Smoking Status', true, smokingStatusOptions, 'Select your smoking status')}
+            {renderSelectField('smokingStatus', 'Smoking Status', false, smokingStatusOptions, 'Select your smoking status')}
           </Grid>
 
           {/* Alcohol Consumption */}
           <Grid size={{ xs: 12, md: 6 }}>
-            {renderSelectField('alcoholConsumption', 'Alcohol Consumption', true, alcoholConsumptionOptions, 'Select your alcohol consumption')}
-          </Grid>
-
-
-          {/* Emergency Contact Number */}
-          <Grid size={{ xs: 12, md: 6 }}>
-            {renderTextField('emergencyContactNumber', 'Emergency Contact Number', true, '+91 9876 543 210')}
+            {renderSelectField('alcoholConsumption', 'Alcohol Consumption', false, alcoholConsumptionOptions, 'Select your alcohol consumption')}
           </Grid>
 
           {/* Emergency Contact Relationship */}
           <Grid size={{ xs: 12, md: 6 }}>
             {renderSelectField('emergencyContactRelationship', 'Emergency Contact Relationship', true, relationships, 'Select relationship with emergency contact')}
+          </Grid>
+
+          {/* Emergency Contact Number */}
+          <Grid size={{ xs: 12, md: 6 }}>
+            {renderTextField('emergencyContactNumber', 'Emergency Contact Number', true, '+91 9876 543 210')}
           </Grid>
 
           {/* Required fields indicator box */}
@@ -296,7 +414,7 @@ const AdditionalInformation = ({ initialValues, onNext, onBack }) => {
           {/* Navigation Buttons */}
           <Grid size={{ xs: 12 }}>
             <FormActions
-                onSkip={() => onNext(formik.values)}
+              onSkip={() => onNext(formik.values)}
               onBack={onBack}
               nextText="Add Medical History"
               disabled={false}

@@ -22,6 +22,11 @@ import {
 import FormHeader from '../common/FormHeader';
 import FormActions from '../common/FormActions';
 
+import prescriptionIcon from '../../assets/Prescriptionimg.svg';
+import labReportIcon from '../../assets/labimg.svg';
+import scanIcon from '../../assets/scanimg.svg';
+import dischargeSummaryIcon from '../../assets/Dischargeimg.svg';
+
 const FILE_STATUS = {
   QUEUED: 'queued',
   UPLOADING: 'uploading',
@@ -32,6 +37,14 @@ const FILE_STATUS = {
 const HealthRecords = ({ initialValues, onNext, onBack }) => {
   const [uploadedFiles, setUploadedFiles] = useState(initialValues?.uploadedFiles || []);
   const [isDragging, setIsDragging] = useState(false);
+
+  // Supported Documents data with SVG icons
+  const supportedDocuments = [
+    { id: 1, icon: prescriptionIcon, label: 'Prescription' },
+    { id: 2, icon: labReportIcon, label: 'Lab reports' },
+    { id: 3, icon: scanIcon, label: 'Scan' },
+    { id: 4, icon: dischargeSummaryIcon, label: 'Discharge summary' },
+  ];
 
   // Simulate file upload with progress
   const simulateUpload = (fileId) => {
@@ -508,6 +521,74 @@ const HealthRecords = ({ initialValues, onNext, onBack }) => {
             JPG, PNG or PDF (Max. 20MB)
           </Typography>
         </Paper>
+      </Box>
+
+      {/* Supported Documents Section - Horizontal layout with SVG icons */}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="body2" sx={{ fontWeight: 600, color: '#374151', mb: 2 }}>
+          Supported Documents
+        </Typography>
+        
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 2,
+            alignItems: 'center',
+          }}
+        >
+          {supportedDocuments.map((doc, index) => (
+            <React.Fragment key={doc.id}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: 24,
+                    height: 24,
+                  }}
+                >
+                  <img 
+                    src={doc.icon} 
+                    alt={doc.label}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                    }}
+                  />
+                </Box>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 500,
+                    color: '#374151',
+                    fontSize: '0.875rem',
+                  }}
+                >
+                  {doc.label}
+                </Typography>
+              </Box>
+              {index < supportedDocuments.length - 1 && (
+                <Typography
+                  sx={{
+                    color: '#d1d5db',
+                    fontWeight: 300,
+                    fontSize: '1.25rem',
+                  }}
+                >
+                  |
+                </Typography>
+              )}
+            </React.Fragment>
+          ))}
+        </Box>
       </Box>
 
       {/* Uploaded Files List */}
