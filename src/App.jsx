@@ -5,6 +5,7 @@ import { CssBaseline, Box } from '@mui/material';
 import theme from './theme';
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import Patientregpage from './pages/Patientregpage';
+import Landingpage from './pages/Landingpage';
 
 
 
@@ -13,6 +14,7 @@ function App() {
    <BrowserRouter>
    <Routes>
          <Route path="/" element={<Patientregpage/>}/>
+         <Route path="/landing" element={<Landingpage/>} />
    </Routes>
    
    </BrowserRouter>
