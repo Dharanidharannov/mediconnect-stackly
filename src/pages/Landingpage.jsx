@@ -8,6 +8,7 @@ import Herosection from "../components/landingcomponent/Herosection";
 import Searchsection from "../components/landingcomponent/Searchsection";
 import Everythingneed from "../components/landingcomponent/Everythingneed";
 import Statssection from "../components/landingcomponent/Statssection";
+import Exploreecosys from "../components/landingcomponent/Exploreecosys";
 
 
 function Landingpage() {
@@ -19,6 +20,7 @@ function Landingpage() {
       <Searchsection/>
       <Everythingneed/>
       <Statssection/>
+      <Exploreecosys/>
     </ThemeProvider>
   );
 }
