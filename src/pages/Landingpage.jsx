@@ -9,6 +9,9 @@ import Searchsection from "../components/landingcomponent/Searchsection";
 import Everythingneed from "../components/landingcomponent/Everythingneed";
 import Statssection from "../components/landingcomponent/Statssection";
 import Exploreecosys from "../components/landingcomponent/Exploreecosys";
+import Chooseus from "../components/landingcomponent/Chooseus";
+import Resultsection from "../components/landingcomponent/Resultsection";
+import Patientreview from "../components/landingcomponent/Patientreview";
 
 
 function Landingpage() {
@@ -21,6 +24,9 @@ function Landingpage() {
       <Everythingneed/>
       <Statssection/>
       <Exploreecosys/>
+      <Chooseus/>
+      <Resultsection/>
+      <Patientreview/>
     </ThemeProvider>
   );
 }

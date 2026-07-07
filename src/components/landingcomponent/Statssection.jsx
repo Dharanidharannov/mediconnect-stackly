@@ -7,50 +7,74 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
+import { Icon } from "@iconify/react";
+import { ArrowForwardIosRounded } from "@mui/icons-material";
 
-import {
-  LocalHospitalOutlined,
-  ScienceOutlined,
-  MedicationOutlined,
-  FolderOpenOutlined,
-  ShieldOutlined,
-  MonitorHeartOutlined,
-  ArrowForwardIosRounded,
-} from "@mui/icons-material";
+
 
 const statsData = [
   {
-    icon: <LocalHospitalOutlined sx={{ fontSize: 26 }} />,
+    icon: (<Icon
+            icon="hugeicons:doctor-01"
+            width={24}
+            height={24}
+            color="#096B58"
+          />),
     title: "Doctor Consultation",
     description:
       "Book appointments with verified doctors across specialities.",
   },
   {
-    icon: <ScienceOutlined sx={{ fontSize: 26 }} />,
+    icon: (<Icon
+            icon="hugeicons:ai-dna"
+            width={24}
+            height={24}
+            color="#096B58"
+          />),
     title: "Lab Tests",
     description:
       "Book lab tests at Home with certified laboratories.",
   },
   {
-    icon: <MedicationOutlined sx={{ fontSize: 26 }} />,
+    icon: (<Icon
+            icon="mage:tablet"
+            width={24}
+            height={24}
+            color="#096B58"
+          />),
     title: "Online Pharmacy",
     description:
       "Order medicines online and get them delivered to your doorstep.",
   },
   {
-    icon: <FolderOpenOutlined sx={{ fontSize: 26 }} />,
+    icon: (<Icon
+            icon="solar:folder-linear"
+            width={24}
+            height={24}
+            color="#096B58"
+           />),
     title: "Health Records",
     description:
       "Access prescriptions, reports and medical history securely.",
   },
   {
-    icon: <ShieldOutlined sx={{ fontSize: 26 }} />,
+    icon: (<Icon
+            icon="material-symbols:privacy-tip-outline"
+            width={24}
+            height={24}
+            color="#096B58"
+          />),
     title: "Insurance Claims",
     description:
       "Verify coverage, file claims and track approvals.",
   },
   {
-    icon: <MonitorHeartOutlined sx={{ fontSize: 26 }} />,
+    icon: (<Icon
+            icon="mingcute:remote-fill"
+            width={24}
+            height={24}
+            color="#096B58"
+          />),
     title: "Remote Monitoring",
     description:
       "Track your vitals and stay connected with your care team.",
@@ -75,7 +99,7 @@ function Statssection() {
             xs: 2,
             sm: 3,
             md: 4,
-            lg: 5,
+            lg: 6,
           },
         }}
       >
@@ -123,9 +147,8 @@ function Statssection() {
                   height: "100%",
                   display: "flex",
                   flexDirection: "column",
-
                   "&:last-child": {
-                    pb: 4,
+                    pb: 3,
                   },
                 }}
               >
@@ -187,7 +210,7 @@ function Statssection() {
                     mt: "auto",
                     display: "flex",
                     justifyContent: "flex-end",
-                    pt: 2,
+                    pt: 1,
                   }}
                 >
                   <IconButton
