@@ -25,14 +25,14 @@ import herosecureicon from "../../assets/herosecure.svg"
 import heroverifiedicon from "../../assets/heroverified.svg"
 import hero24supporticon from "../../assets/hero24support.svg"
 
+import { Icon } from "@iconify/react";
+
 import herosectionbadge1 from "../../assets/herosectionbadge1.svg";
 import herobookappointmentimg from "../../assets/herobookappointmentimg.svg";
 import herovideoimg from "../../assets/herovideoimg.svg";
 
 import heroImage from "../../assets/heroimgrightside.svg";
 
-import PersonSearchOutlined from "@mui/icons-material/PersonSearchOutlined";
-import VideocamOutlined from "@mui/icons-material/VideocamOutlined";
 
 
 function Herosection() {
@@ -361,77 +361,77 @@ function Herosection() {
 
     {/* Find Doctors */}
     <Paper
-      elevation={4}
+  elevation={4}
+  sx={{
+    position: "absolute",
+    top: {
+      xs: 15,
+      sm: 35,
+      md: 90,
+    },
+    left: {
+      xs: 8,
+      sm: 10,
+      md: 0,
+    },
+    display: "flex",
+    alignItems: "center",
+    gap: 1.5,
+    px: {
+      xs: 1.5,
+      sm: 2,
+      md: 2.5,
+    },
+    py: {
+      xs: 1,
+      sm: 1.2,
+      md: 1.5,
+    },
+    borderRadius: "18px",
+    bgcolor: "#fff",
+    boxShadow: "0px 8px 30px rgba(0,0,0,0.08)",
+    zIndex: 2,
+  }}
+>
+  <Icon
+    icon="icon-park-outline:appointment"
+    style={{
+      color: "#0F8B73",
+      width: "clamp(22px, 2vw, 28px)",
+      height: "clamp(22px, 2vw, 28px)",
+      bgcolor:"#141414",
+      flexShrink: 0,
+    }}
+  />
+
+  <Box>
+    <Typography
       sx={{
-        position: "absolute",
-        top: {
-          xs: 15,
-          sm: 35,
-          md: 90,
+        fontWeight: 700,
+        fontSize: {
+          xs: 13,
+          sm: 14,
+          md: 16,
         },
-        left: {
-          xs: 8,
-          sm: 10,
-          md: 0,
-        },
-        display: "flex",
-        alignItems: "center",
-        gap: 1.5,
-        px: {
-          xs: 1.5,
-          sm: 2,
-          md: 2.5,
-        },
-        py: {
-          xs: 1,
-          sm: 1.2,
-          md: 1.5,
-        },
-        borderRadius: "18px",
-        bgcolor: "#fff",
-        boxShadow: "0px 8px 30px rgba(0,0,0,0.08)",
-        zIndex: 2,
       }}
     >
-      <PersonSearchOutlined
-        sx={{
-          color: "#0F8B73",
-          fontSize: {
-            xs: 22,
-            sm: 24,
-            md: 28,
-          },
-        }}
-      />
+      Find Doctors
+    </Typography>
 
-      <Box>
-        <Typography
-          sx={{
-            fontWeight: 700,
-            fontSize: {
-              xs: 13,
-              sm: 14,
-              md: 16,
-            },
-          }}
-        >
-          Find Doctors
-        </Typography>
-
-        <Typography
-          sx={{
-            color: "#7B7B7B",
-            fontSize: {
-              xs: 10,
-              sm: 11,
-              md: 13,
-            },
-          }}
-        >
-          Verified specialists
-        </Typography>
-      </Box>
-    </Paper>
+    <Typography
+      sx={{
+        color: "#7B7B7B",
+        fontSize: {
+          xs: 10,
+          sm: 11,
+          md: 13,
+        },
+      }}
+    >
+      Verified specialists
+    </Typography>
+  </Box>
+</Paper>
 
     {/* Consult Online */}
     <Paper
@@ -467,16 +467,16 @@ function Herosection() {
         zIndex: 2,
       }}
     >
-      <VideocamOutlined
-        sx={{
-          color: "#0F8B73",
-          fontSize: {
-            xs: 22,
-            sm: 24,
-            md: 28,
-          },
-        }}
-      />
+    <Icon
+    icon="tabler:video"
+    style={{
+      color: "#0F8B73",
+      width: "clamp(22px, 2vw, 28px)",
+      height: "clamp(22px, 2vw, 28px)",
+      bgcolor:"#141414",
+      flexShrink: 0,
+    }}
+  />
 
       <Box>
         <Typography
@@ -546,16 +546,16 @@ function Herosection() {
         zIndex: 2,
       }}
     >
-      <ScienceOutlined
-        sx={{
-          color: "#0F8B73",
-          fontSize: {
-            xs: 22,
-            sm: 24,
-            md: 28,
-          },
-        }}
-      />
+  <Icon
+    icon="streamline-ultimate:lab-tube-experiment"
+    style={{
+      color: "#0F8B73",
+      width: "clamp(22px, 2vw, 28px)",
+      height: "clamp(22px, 2vw, 28px)",
+      bgcolor:"#141414",
+      flexShrink: 0,
+    }}
+  />
 
       <Box>
         <Typography

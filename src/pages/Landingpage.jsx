@@ -12,6 +12,7 @@ import Exploreecosys from "../components/landingcomponent/Exploreecosys";
 import Chooseus from "../components/landingcomponent/Chooseus";
 import Resultsection from "../components/landingcomponent/Resultsection";
 import Patientreview from "../components/landingcomponent/Patientreview";
+import Onlineconsult from "../components/landingcomponent/Onlineconsult";
 
 
 function Landingpage() {
@@ -27,6 +28,7 @@ function Landingpage() {
       <Chooseus/>
       <Resultsection/>
       <Patientreview/>
+      <Onlineconsult/>
     </ThemeProvider>
   );
 }
