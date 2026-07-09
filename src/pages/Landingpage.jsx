@@ -13,6 +13,7 @@ import Chooseus from "../components/landingcomponent/Chooseus";
 import Resultsection from "../components/landingcomponent/Resultsection";
 import Patientreview from "../components/landingcomponent/Patientreview";
 import Onlineconsult from "../components/landingcomponent/Onlineconsult";
+import Footer from "../components/landingcomponent/Footer";
 
 
 function Landingpage() {
@@ -29,6 +30,7 @@ function Landingpage() {
       <Resultsection/>
       <Patientreview/>
       <Onlineconsult/>
+      <Footer/>
     </ThemeProvider>
   );
 }
